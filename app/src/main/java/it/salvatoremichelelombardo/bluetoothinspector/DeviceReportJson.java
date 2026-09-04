@@ -1,0 +1,8 @@
+package it.salvatoremichelelombardo.bluetoothinspector;
+import java.util.*;
+public final class DeviceReportJson {
+ private DeviceReportJson(){}
+ public static String serialize(DeviceInfo d,List<GattServiceInfo> services){ StringBuilder s=new StringBuilder("{"); field(s,"timestamp",new Date().toInstant().toString(),true); field(s,"name",d.getName(),true); field(s,"address",d.getAddress(),true); field(s,"transport",d.getTransport(),true); s.append("\"rssi\":").append(d.getRssi()).append(',').append("\"bondState\":").append(d.getBondState()).append(','); field(s,"manufacturerData",d.getManufacturerData(),true); field(s,"serviceData",d.getServiceData(),true); s.append("\"uuids\":["); for(int i=0;i<d.getUuids().size();i++){if(i>0)s.append(',');quote(s,d.getUuids().get(i));} s.append("],\"gattServices\":["); for(int i=0;i<services.size();i++){if(i>0)s.append(','); GattServiceInfo g=services.get(i); s.append('{'); field(s,"uuid",g.uuid,true); s.append("\"characteristics\":["); for(int j=0;j<g.characteristics.size();j++){if(j>0)s.append(','); GattCharacteristicInfo c=g.characteristics.get(j); s.append('{'); field(s,"uuid",c.uuid,true); s.append("\"properties\":").append(c.properties).append(','); field(s,"valueHex",c.valueHex,false); s.append('}'); } s.append("]}"); } return s.append("]}").toString(); }
+ private static void field(StringBuilder s,String k,String v,boolean comma){quote(s,k);s.append(':');quote(s,v);if(comma)s.append(',');}
+ private static void quote(StringBuilder s,String v){s.append('"'); if(v!=null)for(char c:v.toCharArray()){if(c=='"'||c=='\\')s.append('\\'); if(c=='\n')s.append("\\n"); else if(c!='\r')s.append(c);} s.append('"');}
+}
