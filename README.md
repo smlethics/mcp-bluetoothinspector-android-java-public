@@ -15,6 +15,10 @@ Use only with devices you own or are explicitly authorized to inspect. The app d
 ## Build
 Requires JDK 17, Android SDK 36 and Gradle 9.6. Run `gradle testDebugUnitTest assembleDebug`. APK: `app/build/outputs/apk/debug/app-debug.apk`.
 
+## Specifications
+
+See [`docs/SPECIFICATIONS.md`](docs/SPECIFICATIONS.md) for the public-safe project contract, safety boundaries and completion criteria.
+
 ## Public-source hygiene
 This repository is intentionally standalone. It contains no private dashboard integration, local machine paths, credentials, tokens or private infrastructure configuration. Local Android SDK settings and any local secrets must remain outside version control.
 
